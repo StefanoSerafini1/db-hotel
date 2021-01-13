@@ -1,0 +1,53 @@
+ESERCIZIO DB-HOTEL QUERIES
+
+- Selezionare tutte le stanze del primo piano
+	SELECT `id` , `floor` , `room_number` 
+	FROM `stanze` 
+	WHERE `floor` = 1;
+
+- Seleziona tutte le prenotazioni precedenti a maggio 2018
+	SELECT * 
+	FROM `prenotazioni`
+	WHERE `created_at` < '2018-05-01';
+	ORDER BY `created_at` ASC;
+
+- Seleziona tutti gli ospiti che hanno più di 20 anni (al momento dell’esecuzione della query)
+	SELECT `name`, `lastname`, `date_of_birth`
+	FROM `ospiti`
+	WHERE `date_of_birth` < NOW() - INTERVAL 20 YEAR;
+
+- Seleziona tutti gli ospiti il cui nome inizia con la E
+	SELECT *
+	FROM `ospiti`
+	WHERE `name` 
+	LIKE 'e%';
+
+- Calcola il totale degli ordini accepted
+	SELECT COUNT(`status`)
+	AS `tot_accepted`
+	FROM `pagamenti`
+	WHERE `status` = 'accepted';
+
+- Qual è il prezzo massimo pagato?
+	SELECT MAX(`price`)
+	AS 'price_max' 
+	FROM `pagamenti`;
+
+
+- Seleziona gli ospiti riconosciuti con patente e nati nel 1975
+	SELECT  `date_of_birth` , `document_type`,`id` , `name`, `lastname`
+	FROM `ospiti`
+	WHERE `document_type` = 'driver license'
+	AND YEAR(`date_of_birth`) = '1975';
+
+- Quanti posti letto ha l’hotel in totale?
+	SELECT SUM(`beds`) 
+	AS 'beds_tot'
+	FROM `stanze`;
+
+- Somma i prezzi dei pagamenti raggruppandoli per status
+	SELECT SUM(`price`), `status` 
+	AS `sum_price`
+  	FROM `pagamenti`
+ 	GROUP BY `status`
+  	ORDER BY `status` DESC	
